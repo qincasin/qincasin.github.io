@@ -1,0 +1,851 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="spring," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Spring事务以及XML配置事务简介
+事务管理是企业级应用程序中必不可少的技术，用来确保数据的完整性和一致性
+事务就是一些列的动作，他们被当做一个单元的工作单元，这些动作要么全部完成，要么全部不起作用
+
+事务的四个关键属性（ACID）
+原子性(atomicity): 事务是一个原子操作, 由一系列动作组成. 事务的原子性确保动作要么全部完成要么完全不起作用.
+
+一致性(consistency):">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring事务以及XML配置">
+<meta property="og:url" content="http://yoursite.com/2017/05/13/Spring事务以及XML配置/index.html">
+<meta property="og:site_name" content="Casin's Note">
+<meta property="og:description" content="Spring事务以及XML配置事务简介
+事务管理是企业级应用程序中必不可少的技术，用来确保数据的完整性和一致性
+事务就是一些列的动作，他们被当做一个单元的工作单元，这些动作要么全部完成，要么全部不起作用
+
+事务的四个关键属性（ACID）
+原子性(atomicity): 事务是一个原子操作, 由一系列动作组成. 事务的原子性确保动作要么全部完成要么完全不起作用.
+
+一致性(consistency):">
+<meta property="og:updated_time" content="2017-05-13T11:32:44.308Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring事务以及XML配置">
+<meta name="twitter:description" content="Spring事务以及XML配置事务简介
+事务管理是企业级应用程序中必不可少的技术，用来确保数据的完整性和一致性
+事务就是一些列的动作，他们被当做一个单元的工作单元，这些动作要么全部完成，要么全部不起作用
+
+事务的四个关键属性（ACID）
+原子性(atomicity): 事务是一个原子操作, 由一系列动作组成. 事务的原子性确保动作要么全部完成要么完全不起作用.
+
+一致性(consistency):">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/13/Spring事务以及XML配置/"/>
+
+
+
+
+
+  <title>Spring事务以及XML配置 | Casin's Note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Casin's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/13/Spring事务以及XML配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Casin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Casin's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring事务以及XML配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-13T19:21:51+08:00">
+                2017-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spring事务以及XML配置"><a href="#Spring事务以及XML配置" class="headerlink" title="Spring事务以及XML配置"></a>Spring事务以及XML配置</h1><h2 id="事务简介"><a href="#事务简介" class="headerlink" title="事务简介"></a>事务简介</h2><blockquote>
+<p>事务管理是企业级应用程序中必不可少的技术，<strong>用来确保数据的完整性和一致性</strong></p>
+<p>事务就是一些列的动作，他们被当做一个单元的工作单元，这些动作要么全部完成，要么全部不起作用</p>
+</blockquote>
+<h3 id="事务的四个关键属性（ACID）"><a href="#事务的四个关键属性（ACID）" class="headerlink" title="事务的四个关键属性（ACID）"></a>事务的四个关键属性（<strong>ACID</strong>）</h3><ol>
+<li><p>原子性(atomicity): 事务是一个原子操作, 由一系列动作组成. 事务的原子性确保动作要么全部完成要么完全不起作用.</p>
+</li>
+<li><p>一致性(consistency): 一旦所有事务动作完成, 事务就被提交. 数据和资源就处于一种满足业务规则的一致性状态中.<strong>(要么全部成功，要么全部失败)</strong></p>
+</li>
+<li>隔离性(isolation): 可能有许多事务会同时处理相同的数据, 因此每个事物都应该与其他事务隔离开来, 防止数据损坏.<strong>（各管各的，类似于取款机各取各的钱）</strong></li>
+<li>持久性(durability): 一旦事务完成, 无论发生什么系统错误, 它的结果都不应该受到影响. 通常情况下, 事务的结果被写到持久化存储器中.<strong>（狭义：将数据库永久的放在数据库当中；广义：对数据库进行CRUD操作）</strong></li>
+</ol>
+<h2 id="Spring中的事务"><a href="#Spring中的事务" class="headerlink" title="Spring中的事务"></a>Spring中的事务</h2><h2 id="Spring支持的事务传播"><a href="#Spring支持的事务传播" class="headerlink" title="Spring支持的事务传播"></a>Spring支持的事务传播</h2><ol>
+<li>当<del>事务</del>方法被另一事务方法调用时，必须制定事务应该如何传播，例如：方法可能继续在现有事务中运行，也可能开启一个新事务，并在自己的事务中运行。</li>
+<li>介绍下Spring支持的7种传播</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>传播属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>REQUIRED</td>
+<td>如果有事务在运行，当前的方法就在这个事务内运行，否则，就启动一个新的事务，并在自己的事务内运行</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>REQUIRED_NEW</td>
+<td>当前的方法必须启动新事务，并在它自己的事务内运行，如果有事务在运行，应该将它挂起</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>SUPPORTS</td>
+<td>如果有事务在运行，当前的方法就在这个事务内运行，否则它可以不运行在事务种</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>NOT_SUPPORT</td>
+<td>当前的方法不应该运行在事务种，如果有运行的事务，将它挂起</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>MANDATORY</td>
+<td>当前的方法必须运行在事务内部，如果没有正在运行的事务，就抛出异常</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>NEVER</td>
+<td>当前的方法不应该运行在事务中，如果有运行的事务，就抛出异常</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>NESTED</td>
+<td>如果有事务在运行，当前的方法在这个事务的嵌套事务内运行，否则，就启动一个新的事务，并在它自己的事务中运行</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>并发事务所导致的问题</li>
+</ol>
+<p>当同一个应用程序或者不同应用程序中的多个事务在同一数据集上并发执行时，可能会出现许多意外的问题。</p>
+<h3 id="并发事务所导致的问题可以分为下面三个类型"><a href="#并发事务所导致的问题可以分为下面三个类型" class="headerlink" title="并发事务所导致的问题可以分为下面三个类型"></a>并发事务所导致的问题可以分为下面三个类型</h3><ul>
+<li>脏读：对于两个事务T1、T2，T1读取了已经被T2更新但还没有被提交的字段之后，若T2回滚，T1读取的内容就是临时且无效的。</li>
+<li>不可重复读：对于两个事务T1、T2，T1读取了一个字段，然后T2更新了该字段之后，T1再次读取同一个字段，值就不同了。</li>
+<li>幻读：对于两个事务T1、T2，T1从一个表中读取了一个字段，然后T2在表中插入了一些新的行，之后，如果T1再次读取同一个表，就会多出几行。</li>
+</ul>
+<ol>
+<li>解决方案：事务的隔离级别</li>
+</ol>
+<ul>
+<li>从理论上来说，事务应该彼此完全隔离，以避免并发事务所导致的问题，然后那样会对性能产生极大的影响，因为事务必须按顺序运行。</li>
+<li>在实际开发中，为了提升性能，事务会以较低的隔离级别运行。</li>
+<li>事务的隔离界别可以通过隔离事务属性指定 </li>
+</ul>
+<h3 id="Spring支持的事务隔离级别"><a href="#Spring支持的事务隔离级别" class="headerlink" title="Spring支持的事务隔离级别"></a>Spring支持的事务隔离级别</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>隔离级别</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>DEFAULT</td>
+<td>使用底层数据库的默认隔离级别，对于大多数数据库来说，默认级别都是READ_COMMITED</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>READ_UNCOMMITTED</td>
+<td>允许事务读取未被其他事务提交的变更。脏读，不可重复读和幻读的问题都会出现</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>READ_COMMITED</td>
+<td>只允许事务读取已经被其他事务提交的变更，可以避免脏读，但不可重复读和幻读问题仍然可能出现</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>REPEATABLE_READ</td>
+<td>确保事务可以多次从一个字段中红读取相同的值，在这个事务持续期间，禁止其他事务对这个字段进行更新，可以避免脏读和不可重复读，但幻读的问题仍然存在</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>SERIALIZABLE</td>
+<td>确保事务可以从一个表中读取相同的行，在这个事务持续期间，禁止其他事务对该表执行插入，更新和创建操作。所有并发问题都可以避免，但性能十分低下</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>事务的隔离级别要得到底层数据引擎的支持，而不是应用程序或者框架的支持。<br>Oracle支持2中事务隔离级别：READ_COMMITED,SERIALIZABLE<br>Mysql支持4种事务隔离界别</p>
+</blockquote>
+<h3 id="超时和只读属性"><a href="#超时和只读属性" class="headerlink" title="超时和只读属性"></a>超时和只读属性</h3><ol>
+<li>由于事务可以在行和表上获得锁，因此长事务会占用资源，并对整体性能产生影响、如果一个事务只读数据但不做修改，数据库引擎可以对这个事务进行优化</li>
+<li><strong>超时事务属性[很少使用]</strong>：事务在轻质回滚之前可以保持多久，这样可以防止长期运行的事务占用资源</li>
+<li><strong>只读事务属性</strong>：表示这个事务只读取但不更新数据库，这样可以保住数据库引擎优化事务</li>
+</ol>
+<h3 id="Spring中的事务管理的不同实现"><a href="#Spring中的事务管理的不同实现" class="headerlink" title="Spring中的事务管理的不同实现"></a>Spring中的事务管理的不同实现</h3><ol>
+<li>DataSourceTransactionManager:在应用程序中只需要处理一个数据源, 而且通过 JDBC 存取</li>
+<li>JtaTransactionManager: 在 JavaEE 应用服务器上用 JTA(Java Transaction API) 进行事务管理</li>
+<li>HibernateTransactionManager：用 Hibernate 框架存取数据库<blockquote>
+<p>事务管理器以普通的Bean形式声明在Spring Ioc容器中</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="受审查异常与不受审查异常（乱入？）"><a href="#受审查异常与不受审查异常（乱入？）" class="headerlink" title="受审查异常与不受审查异常（乱入？）"></a>受审查异常与不受审查异常（乱入？）</h2><ul>
+<li>调用或者执行的代码不能继续执行，需要<strong>立即终止</strong>。出现这种情况的可能性比较多，例如：服务器连接不上、参数不正确等。这些时候都使用<strong>非检查异常</strong>，不需要调用代码的显示捕捉和处理，而且代码间接明了。</li>
+<li>调用代码需要进一步处理和恢复。假如将SQLException定义未非检查异常，这样操作数据时开发人员当然的认为SQLExcetion不需要调用代码的显式捕捉和处理，进而会导致严重的Connection不关闭，Transaction不会滚、DB中出现脏读数据等情况，正因为SQLExcetion定义为检查异常，才会驱使开发人员显式显式捕捉，并且在代码产生异常后清理资源。当然清理资源后，可以继续抛出非检查异常，阻止程序的执行。根据观察和理解，检测异常大多可以应用于工具类中。</li>
+<li>下面给个例子：</li>
+</ul>
+<p>你是否写过这样的代码？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(User user)</span></span>&#123;</div><div class="line">	<span class="keyword">try</span>&#123;</div><div class="line">	<span class="comment">//do some code that throws SQLExcetion</span></div><div class="line">	&#125;<span class="keyword">catch</span>(SQLExction e)&#123;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	*了解的人都知道，这里的异常打印毫无意义，仅仅是将错误堆栈输出到控制台。</div><div class="line">	* 而在 Production[生产] 环境中，需要将错误堆栈输出到日志。</div><div class="line">	* 而且这里 catch 处理之后程序继续执行，会导致进一步的问题	</div><div class="line">	* */</div><div class="line">	e.printStacktrace();</div><div class="line">	&#125;	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>代码重构</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(User user)</span></span>&#123;</div><div class="line">	<span class="keyword">try</span>&#123;</div><div class="line">	<span class="comment">//..do some code that throws SQLException</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">catch</span>(SQLException ex)&#123;</div><div class="line">	<span class="comment">//转换成非受审查异常</span></div><div class="line">		thrownewRuntimeException(“自己描述性语言,例如com.qincasin.user.dao.UserDao.update 执行过程出错”, ex);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">finally</span>&#123;</div><div class="line">	<span class="comment">//关闭资源</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Spring注解实现事务以及配置"><a href="#Spring注解实现事务以及配置" class="headerlink" title="Spring注解实现事务以及配置"></a>Spring注解实现事务以及配置</h2><h3 id="Transaction-注解参数简单解释"><a href="#Transaction-注解参数简单解释" class="headerlink" title="@Transaction 注解参数简单解释"></a>@Transaction 注解参数简单解释</h3><p>在方法前面或者实现类前面添加@Transaction注解时会对该方法进行事务提交，那么这个参数到底有哪些参数呢？</p>
+<ul>
+<li>什么也不加时：直接事务处理，针对于所有的方法执行事务</li>
+<li>readOnly=true：没有添加事务</li>
+<li>rollbackFor:只试用与runtimeExcetion  原因:<strong>继承自java.lang.RuntimeExcetion</strong></li>
+<li>noRollbackFor:对事务进行不回滚，可以写成 (noRollbackFor=BalanceException.class)即对balance自定义异常不回滚</li>
+<li>timeout:那么假如代码里面有个Thread线程sleep，那么在sleep执行时，上面的代码不进行事务回滚</li>
+<li><strong>propagation=Propagation.REQUIRED</strong>  当一个事务被另外一个事务调用时，那么所有的被调用的方法都需要进行事务处理。</li>
+<li><strong>propagation=Propagation.REQUIRES_NEW</strong>  当前的方法必须启动新事务，并在它自己的事务内运行，如果有事务在运行，应该将它挂起</li>
+</ul>
+<h3 id="事务xml配置-以及druid配置"><a href="#事务xml配置-以及druid配置" class="headerlink" title="事务xml配置  以及druid配置"></a>事务xml配置  以及druid配置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">	<span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">	<span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></div><div class="line">	<span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></div><div class="line">	<span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span></div><div class="line">	<span class="attr">xmlns:tx</span>=<span class="string">"http://www.springframework.org/schema/tx"</span></div><div class="line">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></div><div class="line">		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd</div><div class="line">		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd</div><div class="line">		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd"&gt;</div><div class="line">	<span class="comment">&lt;!-- 启动spring注解 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">context:annotation-config</span> /&gt;</span></div><div class="line"></div><div class="line">	<span class="comment">&lt;!-- 扫描包 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.qjx"</span> /&gt;</span></div><div class="line"></div><div class="line">	<span class="comment">&lt;!-- 读取属性文件 激活$&#123;...&#125; --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">"classpath:jdbc.properties"</span> /&gt;</span></div><div class="line"></div><div class="line">	<span class="comment">&lt;!-- 配置数据源 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span></span></div><div class="line">		<span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</div><div class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"$&#123;qjx.driver&#125;"</span> /&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;qjx.url&#125;"</span> /&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;qjx.username&#125;"</span> /&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;qjx.password&#125;"</span> /&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="comment">&lt;!-- 配置jdbcTemplate 引用的是上面的DruidDataSource --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jdbcTemplate"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.core.JdbcTemplate"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span>  <span class="comment">&lt;!-- 引用上面的数据源 --&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- 事务管理器 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></div><div class="line">	<span class="comment">&lt;!-- 进行管理数据源 --&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span>   <span class="comment">&lt;!-- 引用上面的数据源 --&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- 告知事务管理器，我需要设置哪些方式是被事务管理器进行管理的 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">"methodAdvice"</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>&gt;</span>  <span class="comment">&lt;!-- 设置规则 需要监控哪些方法 --&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></div><div class="line">			<span class="comment">&lt;!-- 约定优于配置 --&gt;</span></div><div class="line">			<span class="comment">&lt;!-- 第一种方式   约定为所有的方法都是只读的，那么只有以add等开头的进行事务处理--&gt;</span></div><div class="line">			<span class="comment">&lt;!-- &lt;tx:method name="add*"/&gt;</span></div><div class="line">			&lt;tx:method name="insert*"/&gt;</div><div class="line">			&lt;tx:method name="change*"/&gt;</div><div class="line">			&lt;tx:method name="edit*"/&gt;</div><div class="line">			&lt;tx:method name="update*"/&gt;</div><div class="line">			&lt;tx:method name="mod*"/&gt;</div><div class="line">			&lt;tx:method name="del*"/&gt;</div><div class="line">			&lt;tx:method name="remove*"/&gt;</div><div class="line">			&lt;tx:method name="cancel*"/&gt;</div><div class="line">			&lt;tx:method name="*" read-only="true"/&gt; 监控的是哪些方法  现在设置为所有的 *方法都被事务管理器管理 --&gt;</div><div class="line">			</div><div class="line">			<span class="comment">&lt;!-- 第二种方式 所有方式添加了事务处理  那么只有以get开口的不进行事务处理--&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"get*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"load*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"query*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"select*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"list*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"find*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"*"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- 下面告诉它是监控的那个层次的，例如Controller service dao等  那么需要监控的是service层 --&gt;</span></div><div class="line">	<span class="comment">&lt;!-- 下面使用AOP来监控 Service层--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">expression</span>=<span class="string">"execution(* com..service.*.*Service(..))"</span> <span class="attr">id</span>=<span class="string">"methodServicePointCut"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">"methodAdvice"</span> <span class="attr">pointcut-ref</span>=<span class="string">"methodServicePointCut"</span>/&gt;</span>  <span class="comment">&lt;!-- 引用上面的methodAdvice --&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="comment">&lt;!-- 启动事务注解 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">proxy-target-class</span>=<span class="string">"true"</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>/&gt;</span></div><div class="line">	</div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag"># spring</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/23/学习笔记1/" rel="next" title="学习笔记1">
+                <i class="fa fa-chevron-left"></i> 学习笔记1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Casin" />
+          <p class="site-author-name" itemprop="name">Casin</p>
+           
+              <p class="site-description motion-element" itemprop="description">日常技术分享</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring事务以及XML配置"><span class="nav-number">1.</span> <span class="nav-text">Spring事务以及XML配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事务简介"><span class="nav-number">1.1.</span> <span class="nav-text">事务简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务的四个关键属性（ACID）"><span class="nav-number">1.1.1.</span> <span class="nav-text">事务的四个关键属性（ACID）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring中的事务"><span class="nav-number">1.2.</span> <span class="nav-text">Spring中的事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring支持的事务传播"><span class="nav-number">1.3.</span> <span class="nav-text">Spring支持的事务传播</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#并发事务所导致的问题可以分为下面三个类型"><span class="nav-number">1.3.1.</span> <span class="nav-text">并发事务所导致的问题可以分为下面三个类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring支持的事务隔离级别"><span class="nav-number">1.3.2.</span> <span class="nav-text">Spring支持的事务隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#超时和只读属性"><span class="nav-number">1.3.3.</span> <span class="nav-text">超时和只读属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring中的事务管理的不同实现"><span class="nav-number">1.3.4.</span> <span class="nav-text">Spring中的事务管理的不同实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#受审查异常与不受审查异常（乱入？）"><span class="nav-number">1.4.</span> <span class="nav-text">受审查异常与不受审查异常（乱入？）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring注解实现事务以及配置"><span class="nav-number">1.5.</span> <span class="nav-text">Spring注解实现事务以及配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transaction-注解参数简单解释"><span class="nav-number">1.5.1.</span> <span class="nav-text">@Transaction 注解参数简单解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务xml配置-以及druid配置"><span class="nav-number">1.5.2.</span> <span class="nav-text">事务xml配置  以及druid配置</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Casin</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
