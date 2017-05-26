@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java学习笔记1," />
+  <meta name="keywords" content="Hibernate," />
 
 
 
@@ -90,16 +90,37 @@
 
 
 
-<meta name="description" content="测试方法1">
+<meta name="description" content="优化Hibernate所鼓励的7大措施：
+尽量使用many-to-one，避免使用单项one-to-many
+灵活使用单向one-to-many
+不用一对一，使用多对一代替一对一
+配置对象缓存，不使用集合缓存
+一对多使用Bag 多对一使用Set
+继承使用显示多态 HQL:from object polymorphism=”exlicit” 避免查出所有对象
+消除大表，使用二级缓存">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学习笔记1">
-<meta property="og:url" content="http://yoursite.com/2017/03/23/学习笔记1/index.html">
+<meta property="og:title" content="优化Hibernate所鼓励的7大措施">
+<meta property="og:url" content="http://yoursite.com/2017/05/26/优化Hibernate所鼓励的7大措施/index.html">
 <meta property="og:site_name" content="Casin's Note">
-<meta property="og:description" content="测试方法1">
-<meta property="og:updated_time" content="2017-03-23T03:21:09.850Z">
+<meta property="og:description" content="优化Hibernate所鼓励的7大措施：
+尽量使用many-to-one，避免使用单项one-to-many
+灵活使用单向one-to-many
+不用一对一，使用多对一代替一对一
+配置对象缓存，不使用集合缓存
+一对多使用Bag 多对一使用Set
+继承使用显示多态 HQL:from object polymorphism=”exlicit” 避免查出所有对象
+消除大表，使用二级缓存">
+<meta property="og:updated_time" content="2017-05-26T00:36:45.803Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="学习笔记1">
-<meta name="twitter:description" content="测试方法1">
+<meta name="twitter:title" content="优化Hibernate所鼓励的7大措施">
+<meta name="twitter:description" content="优化Hibernate所鼓励的7大措施：
+尽量使用many-to-one，避免使用单项one-to-many
+灵活使用单向one-to-many
+不用一对一，使用多对一代替一对一
+配置对象缓存，不使用集合缓存
+一对多使用Bag 多对一使用Set
+继承使用显示多态 HQL:from object polymorphism=”exlicit” 避免查出所有对象
+消除大表，使用二级缓存">
 
 
 
@@ -127,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/23/学习笔记1/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/26/优化Hibernate所鼓励的7大措施/"/>
 
 
 
 
 
-  <title>学习笔记1 | Casin's Note</title>
+  <title>优化Hibernate所鼓励的7大措施 | Casin's Note</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -262,7 +283,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/23/学习笔记1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/优化Hibernate所鼓励的7大措施/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Casin">
@@ -279,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">学习笔记1</h1>
+          <h1 class="post-title" itemprop="name headline">优化Hibernate所鼓励的7大措施</h1>
         
 
         <div class="post-meta">
@@ -291,8 +312,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-23T10:59:07+08:00">
-                2017-03-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-26T08:35:59+08:00">
+                2017-05-26
               </time>
             
 
@@ -326,7 +347,15 @@
       
 
       
-        <p>测试方法1</p>
+        <h1 id="优化Hibernate所鼓励的7大措施："><a href="#优化Hibernate所鼓励的7大措施：" class="headerlink" title="优化Hibernate所鼓励的7大措施："></a>优化Hibernate所鼓励的7大措施：</h1><ol>
+<li>尽量使用many-to-one，避免使用单项one-to-many</li>
+<li>灵活使用单向one-to-many</li>
+<li>不用一对一，使用多对一代替一对一</li>
+<li>配置对象缓存，不使用集合缓存</li>
+<li>一对多使用Bag 多对一使用Set</li>
+<li>继承使用显示多态 HQL:from object polymorphism=”exlicit” 避免查出所有对象</li>
+<li>消除大表，使用二级缓存</li>
+</ol>
 
       
     </div>
@@ -356,7 +385,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/java学习笔记1/" rel="tag"># java学习笔记1</a>
+            <a href="/tags/Hibernate/" rel="tag"># Hibernate</a>
           
         </div>
       
@@ -369,8 +398,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/23/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2017/05/26/定时器Timer/" rel="next" title="定时器Timer">
+                <i class="fa fa-chevron-left"></i> 定时器Timer
               </a>
             
           </div>
@@ -378,10 +407,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/13/Spring事务以及XML配置/" rel="prev" title="Spring事务以及XML配置">
-                Spring事务以及XML配置 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -428,8 +453,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -482,6 +516,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#优化Hibernate所鼓励的7大措施："><span class="nav-number">1.</span> <span class="nav-text">优化Hibernate所鼓励的7大措施：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
